@@ -41,5 +41,5 @@ csvToJson()
 	.subscribe(
 		processCSVLine,
 		(error) => console.log('Error while reading from .csv file', error),
-		() => console.log('Done!')
+		() => console.log('CSV is processed to JSON')
 	);

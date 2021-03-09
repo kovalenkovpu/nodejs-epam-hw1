@@ -5,6 +5,7 @@ stdin.on('data', (data) => {
 		const reversedData = data.toString().split('').reverse().join('');
 
 		stdout.write(reversedData + '\n');
+		// or console.log(reversedData + '\n');
 	} catch (error) {
 		console.error(error);
 	}
