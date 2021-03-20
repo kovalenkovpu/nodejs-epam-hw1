@@ -6,4 +6,4 @@ const logWriteError = (error: Error) =>
 	logError('Error while writing to .txt file')(error);
 const logFinish = () => console.log('CSV is processed to JSON');
 
-export { logReadError, logWriteError, logFinish };
+export { logError, logReadError, logWriteError, logFinish };
