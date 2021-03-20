@@ -8,7 +8,7 @@ interface RawLine {
 interface ResultLine {
 	book: string;
 	author: string;
-	price: string;
+	price: number;
 }
 
 export type { RawLine, ResultLine };
