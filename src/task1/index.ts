@@ -1,16 +1,17 @@
 import { stdin, stdout } from 'process';
+import readline from 'readline';
 
-stdin.on('data', (data) => {
-	try {
-		const reversedData = data.toString().split('').reverse().join('');
+import * as logUtils from '../utils/logUtils';
 
-		stdout.write(reversedData + '\n');
-		// or console.log(reversedData + '\n');
-	} catch (error) {
-		console.error(error);
-	}
+const rl = readline.createInterface({ input: stdin });
+
+rl.on('line', (line) => {
+	const reversedData = line.toString().split('').reverse().join('');
+
+	stdout.write(reversedData + '\n');
+	// or console.log(reversedData);
 });
 
-stdin.on('error', (error) => {
-	console.error('Error on reading from stdin', error.message);
+rl.on('error', (error) => {
+	logUtils.logError('Error on reading from stdin')(error);
 });

@@ -1,19 +1,20 @@
 // =============================
 // Task1 using JS and babel-node
-import { stdin, stdout } from 'process';
+import readline from 'readline';
 
-stdin.on('data', (data) => {
-	try {
-		const reversedData = data.toString().split('').reverse().join('');
+import * as logUtils from '../utils/logUtils';
 
-		stdout.write(reversedData + '\n');
-	} catch (error) {
-		console.error(error);
-	}
+const rl = readline.createInterface({ input: stdin });
+
+rl.on('line', (line) => {
+	const reversedData = line.toString().split('').reverse().join('');
+
+	stdout.write(reversedData + '\n');
+	// or console.log(reversedData);
 });
 
-stdin.on('error', (error) => {
-	console.error('Error on reading from stdin', error.message);
+rl.on('error', (error) => {
+	logUtils.logError('Error on reading from stdin')(error);
 });
 
 // =============================
@@ -23,16 +24,28 @@ import fs from 'fs';
 
 const csvFileName = 'nodejs-hw1-ex1.csv';
 const txtFileName = 'nodejs-hw1-ex1.txt';
-const csvFilePath = `${__dirname}/${csvFileName}`;
+const csvFilePath = `${path.resolve()}/src/csv/${csvFileName}`;
 const txtFilePath = `${__dirname}/${txtFileName}`;
 
 const writeStream = fs.createWriteStream(txtFilePath);
 
-const processCSVLine = (json) => {
+const processCSVLine = (line) => {
 	try {
-		writeStream.write(JSON.stringify(json) + '\n');
+		const formattedLine = Object.keys(line).reduce((acc, key) => {
+			if (key === 'Amount') {
+				return acc;
+			}
+
+			acc = {
+				...acc,
+				[key.toLowerCase()]: key === 'Price' ? Number(line[key]) : line[key],
+			};
+
+			return acc;
+		}, {});
+		writeStream.write(JSON.stringify(formattedLine) + '\n');
 	} catch (error) {
-		console.log('Error while writing to .txt file', error);
+		logUtils.logReadError(error);
 	}
 };
 
